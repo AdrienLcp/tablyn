@@ -12,11 +12,22 @@ Minimalist new tab browser extension — a personal launchpad with customizable 
 ## Project Structure
 
 ```
+assets/                        # Static assets (icons, images)
 entrypoints/
-└── newtab/          # New tab page (main UI, replaces browser's default new tab)
-assets/              # Static assets (icons, images)
-public/              # Public files copied to output
-wxt.config.ts        # WXT/Vite configuration
+└── newtab/                    # New tab page (main UI)
+    ├── features/
+    │   └── theme/
+    │       ├── components/    # React components (ThemeSwitcher)
+    │       ├── context/       # React context, provider, hooks
+    │       ├── domain/        # Entities, constants, Zod schemas
+    │       └── services/      # Pure TS logic (CSS, storage, mode detection)
+    ├── presentation/
+    │   └── styles/            # Sass partials (_colors, _sizes, _themes, _typography)
+    ├── App.tsx
+    ├── index.html
+    └── main.tsx
+public/                        # Public files copied to output
+wxt.config.ts                  # WXT/Vite configuration
 ```
 
 ## Commands
@@ -41,7 +52,8 @@ Use `browser.storage.local` (via WXT's `storage` utilities) for all user data. T
 - **UI/Logic separation**: all business logic lives in **framework-agnostic TypeScript services** (pure functions, no React imports). React components and hooks are thin wrappers that consume these services. This ensures portability — if we swap React for another framework, only the UI layer needs rewriting.
   - `features/<name>/domain/` — entities (types), constants, Zod schemas
   - `features/<name>/services/` — pure TS logic (storage, data, DOM manipulation)
-  - `features/<name>/` — React layer (context, hooks, components)
+  - `features/<name>/context/` — React context definition, provider, hooks
+  - `features/<name>/components/` — React components
 
 ## Conventions
 
@@ -55,12 +67,13 @@ Use `browser.storage.local` (via WXT's `storage` utilities) for all user data. T
 - **`type` over `interface`** — always use `type` for object shapes, never `interface`.
 - **DRY types** — derive types from their source of truth whenever possible:
   - From const arrays: `const MODES = ['a', 'b'] as const` → `type Mode = (typeof MODES)[number]`
-  - From Zod schemas: `type ThemeState = z.infer<typeof themeStateSchema>`
+  - From Zod schemas: `type Theme = z.infer<typeof themeSchema>`
   - Never duplicate a type that can be derived
 - **Descriptive variable names** — prefer `storedThemeResult` over `result`, `rawThemeData` over `stored`. Name variables after what they contain.
 - **Boolean prefix** — always prefix booleans with `is`, `has`, `can`, `should`, etc. Example: `isLoaded`, `hasError`, `canSubmit`. Never `loaded`, `error`, `open`.
 - **Sorted dependency arrays** — React hooks dependency arrays (`useEffect`, `useCallback`, `useMemo`) must be sorted alphabetically.
-- **Component-only exports for HMR** — each `.tsx` file must export **only** React components (no contexts, constants, or types mixed in). This is required for React Fast Refresh to work. Separate context creation (`createContext`) and shared types into a dedicated `*-definitions.ts` file.
+- **Component-only exports for HMR** — each `.tsx` file must export **only** React components (no contexts, constants, or types mixed in). This is required for React Fast Refresh to work. Separate context creation (`createContext`) and shared types into a dedicated `.ts` file (e.g. `theme-context.ts` for context + types, `theme-provider.tsx` for the provider component).
+- **Stable callbacks with `useRef`** — when callbacks need to read the latest state without re-creating on every change, store state in a `useRef` and read `ref.current` inside callbacks. This keeps dependency arrays minimal (e.g. `[updateTheme]` instead of `[updateTheme, state]`).
 - **No magic numbers** — extract numeric literals into named constants in the domain's `*-constants.ts`.
 - **No empty blocks or placeholder comments** — catch blocks must log with `console.warn`/`console.error`. Never leave `// TODO` or empty `{}`.
 - **Zod everywhere at boundaries** — validate all external data (storage, API, user input) with Zod schemas. Always use `safeParse()`, never `parse()`. Prefer reusable sub-schemas (e.g. `presetNameSchema`) over duplicating validation logic.
