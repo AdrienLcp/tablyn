@@ -1,0 +1,14 @@
+@use 'normalize'
+@use 'reset'
+@use 'sizes'
+@use 'colors'
+@use 'themes'
+@use 'typography'
+
+body
+  @include typography.body-medium
+
+#root
+  display: flex
+  flex-direction: column
+  min-block-size: 100svh

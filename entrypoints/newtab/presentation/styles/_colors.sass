@@ -1,0 +1,34 @@
+// Fallback values (Zinc light) — applied if no theme class is set yet.
+// At runtime, _themes.sass classes take over via <html class="theme-zinc light">
+
+:root
+  --color-accent: oklch(0.24 0.006 285)
+  --color-accent-foreground: oklch(0.985 0 0)
+  --color-accent-hovered: oklch(0.34 0.006 285)
+  --color-accent-pressed: oklch(0.44 0.006 285)
+  --color-background: oklch(1 0 0)
+  --color-border: oklch(0.87 0.006 286)
+  --color-destructive: oklch(0.577 0.245 27.33)
+  --color-destructive-foreground: oklch(0.985 0 0)
+  --color-foreground: oklch(0.14 0.004 285)
+  --color-foreground-muted: oklch(0.55 0.014 286)
+  --color-muted: oklch(0.967 0.001 286)
+  --color-ring: oklch(0.24 0.006 285)
+
+  &.orange
+    &.light
+      // colors light orange
+
+    &.dark
+      // colors dark orange
+
+  &.violet
+    &.light
+      // colors light violet
+
+    &.dark
+      // colors dark violet
+
+body
+  background-color: var(--color-background)
+  color: var(--color-foreground)

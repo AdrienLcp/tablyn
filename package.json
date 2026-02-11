@@ -1,14 +1,16 @@
 {
   "dependencies": {
     "react": "^19.2.4",
-    "react-dom": "^19.2.4"
+    "react-dom": "^19.2.4",
+    "zod": "^4.3.6"
   },
-  "description": "manifest.json description",
+  "description": "Minimalist new tab extension — a personal launchpad with customizable shortcuts.",
   "devDependencies": {
     "@biomejs/biome": "2.3.14",
     "@types/react": "^19.2.14",
     "@types/react-dom": "^19.2.3",
     "@wxt-dev/module-react": "^1.1.5",
+    "sass-embedded": "^1.97.3",
     "typescript": "^5.9.3",
     "wxt": "^0.20.15"
   },
@@ -27,5 +29,5 @@
     "zip:firefox": "wxt zip -b firefox"
   },
   "type": "module",
-  "version": "0.0.0"
+  "version": "0.1.0"
 }

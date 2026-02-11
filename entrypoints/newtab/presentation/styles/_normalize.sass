@@ -1,0 +1,157 @@
+a,
+abbr,
+acronym,
+address,
+article,
+aside,
+audio,
+b,
+big,
+blockquote,
+body,
+canvas,
+caption,
+center,
+cite,
+code,
+dd,
+del,
+details,
+dfn,
+div,
+dl,
+dt,
+em,
+embed,
+fieldset,
+figcaption,
+figure,
+footer,
+form,
+h1,
+h2,
+h3,
+h4,
+h5,
+h6,
+header,
+hgroup,
+html,
+i,
+img,
+ins,
+kbd,
+label,
+legend,
+li,
+mark,
+menu,
+nav,
+object,
+ol,
+output,
+p,
+pre,
+q,
+ruby,
+s,
+samp,
+section,
+small,
+span,
+strike,
+strong,
+sub,
+summary,
+sup,
+table,
+tbody,
+td,
+tfoot,
+th,
+thead,
+time,
+tr,
+tt,
+u,
+ul,
+var,
+video
+  font-size: 100%
+
+article,
+aside,
+details,
+figcaption,
+figure,
+footer,
+header,
+hgroup,
+menu,
+nav,
+section
+  display: block
+
+a:not([class])
+  text-decoration-skip-ink: auto
+
+body
+  -webkit-font-smoothing: antialiased
+  line-height: 1
+  min-height: 100vh
+  text-rendering: optimizeSpeed
+
+h1,
+h2,
+h3,
+h4,
+h5,
+h6
+  overflow-wrap: break-word
+  text-wrap: balance
+
+html:focus-within
+  scroll-behavior: smooth
+
+canvas,
+img,
+picture,
+svg,
+video
+  display: block
+  max-width: 100%
+
+img
+  background-repeat: no-repeat
+  background-size: cover
+  font-style: italic
+  height: auto
+  shape-margin: 0.75rem
+  vertical-align: middle
+
+svg
+  max-height: 100%
+
+input,
+select,
+textarea
+  field-sizing: content
+
+p
+  overflow-wrap: break-word
+  text-wrap: pretty
+
+#root
+  isolation: isolate
+
+@media (prefers-reduced-motion: reduce)
+  html:focus-within
+    scroll-behavior: auto
+
+  *,
+  *::before,
+  *::after
+    animation-duration: 0.01ms !important
+    animation-iteration-count: 1 !important
+    scroll-behavior: auto !important
+    transition-duration: 0.01ms !important

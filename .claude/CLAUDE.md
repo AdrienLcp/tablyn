@@ -33,7 +33,15 @@ wxt.config.ts        # WXT/Vite configuration
 
 ## Data Storage
 
-Use `browser.storage.local` (via WXT's `storage` utilities) for all user data. This keeps data local and synced across sessions without needing a backend.
+Use `browser.storage.local` (via WXT's `storage` utilities) for all user data. This keeps data local and synced across sessions without needing a backend. Do NOT use `localStorage` — it is tied to the extension's origin ID which changes on reinstall, causing data loss. The `storage` permission is declared in `wxt.config.ts`.
+
+## Architecture
+
+- **Feature-first**: code organized by feature under `features/<name>/`. If a feature grows large, apply clean architecture inside it.
+- **UI/Logic separation**: all business logic lives in **framework-agnostic TypeScript services** (pure functions, no React imports). React components and hooks are thin wrappers that consume these services. This ensures portability — if we swap React for another framework, only the UI layer needs rewriting.
+  - `features/<name>/domain/` — entities (types), constants, Zod schemas
+  - `features/<name>/services/` — pure TS logic (storage, data, DOM manipulation)
+  - `features/<name>/` — React layer (context, hooks, components)
 
 ## Conventions
 
@@ -42,6 +50,20 @@ Use `browser.storage.local` (via WXT's `storage` utilities) for all user data. T
 - Keep dependencies minimal — avoid adding libraries unless truly needed
 - When learning new patterns or project-specific knowledge during development, update this file to preserve that context
 - **Biome** is the linter/formatter — no semicolons, single quotes, no trailing commas. Run `pnpm lint:fix` before committing.
+- **Arrow functions only** — always use `const fn = () => {}`, never `function fn() {}`. Applies everywhere (components, hooks, services, helpers).
+- **`React.FC` for components** — always type React components with `React.FC<Props>` (or `React.FC` / `React.FC<React.PropsWithChildren>` when no custom props). Never inline the props type after the parameter destructuring.
+- **`type` over `interface`** — always use `type` for object shapes, never `interface`.
+- **DRY types** — derive types from their source of truth whenever possible:
+  - From const arrays: `const MODES = ['a', 'b'] as const` → `type Mode = (typeof MODES)[number]`
+  - From Zod schemas: `type ThemeState = z.infer<typeof themeStateSchema>`
+  - Never duplicate a type that can be derived
+- **Descriptive variable names** — prefer `storedThemeResult` over `result`, `rawThemeData` over `stored`. Name variables after what they contain.
+- **Boolean prefix** — always prefix booleans with `is`, `has`, `can`, `should`, etc. Example: `isLoaded`, `hasError`, `canSubmit`. Never `loaded`, `error`, `open`.
+- **Sorted dependency arrays** — React hooks dependency arrays (`useEffect`, `useCallback`, `useMemo`) must be sorted alphabetically.
+- **Component-only exports for HMR** — each `.tsx` file must export **only** React components (no contexts, constants, or types mixed in). This is required for React Fast Refresh to work. Separate context creation (`createContext`) and shared types into a dedicated `*-definitions.ts` file.
+- **No magic numbers** — extract numeric literals into named constants in the domain's `*-constants.ts`.
+- **No empty blocks or placeholder comments** — catch blocks must log with `console.warn`/`console.error`. Never leave `// TODO` or empty `{}`.
+- **Zod everywhere at boundaries** — validate all external data (storage, API, user input) with Zod schemas. Always use `safeParse()`, never `parse()`. Prefer reusable sub-schemas (e.g. `presetNameSchema`) over duplicating validation logic.
 - **Skills**: before writing code, check `.agents/skills/` for relevant patterns and best practices. Apply them when appropriate:
   - `vercel-composition-patterns` — React composition patterns (compound components, avoid boolean props)
   - `vercel-react-best-practices` — Performance optimization (re-renders, async, bundle size)
@@ -74,6 +96,7 @@ Use `browser.storage.local` (via WXT's `storage` utilities) for all user data. T
 - [ ] **Custom favicon**: Let users set a custom favicon for the new tab page
 - [ ] **Custom tab title**: Let users change the browser tab title (default: "Tablyn")
 - [ ] **Persistent storage**: Save all settings and shortcuts to `browser.storage.local`
+- [ ] **Export/import config**: Allow users to export all settings and shortcuts as a JSON file, and import from one
 
 ## Future Ideas
 
