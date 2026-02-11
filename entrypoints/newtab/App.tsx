@@ -1,5 +1,5 @@
-import { ThemeSwitcher } from './features/theme/ThemeSwitcher'
-import { ThemeProvider } from './features/theme/theme-context'
+import { ThemeSwitcher } from './features/theme/components/ThemeSwitcher'
+import { ThemeProvider } from './features/theme/context/theme-provider'
 
 export const App: React.FC = () => (
   <ThemeProvider>

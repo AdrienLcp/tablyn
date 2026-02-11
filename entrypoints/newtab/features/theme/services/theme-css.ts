@@ -1,10 +1,9 @@
-import {
-  ACCENT_BASE_LIGHTNESS,
-  ACCENT_FOREGROUND,
-  ACCENT_HOVER_DELTA,
-  ACCENT_PRESS_DELTA
-} from '../domain/theme-constants'
-import type { EffectiveMode } from '../domain/theme-entities'
+import type { EffectiveMode, Theme } from '../domain/theme-entities'
+
+const ACCENT_BASE_LIGHTNESS = 0.546
+const ACCENT_HOVER_DELTA = 0.1
+const ACCENT_PRESS_DELTA = 0.2
+const ACCENT_FOREGROUND = 'oklch(0.985 0 0)'
 
 const ACCENT_CSS_VARS = [
   '--color-accent',
@@ -14,9 +13,9 @@ const ACCENT_CSS_VARS = [
   '--color-ring'
 ] as const
 
-export const applyThemeClassToDOM = (
+const applyThemeClassToDOM = (
   presetName: string,
-  mode: EffectiveMode
+  effectiveMode: EffectiveMode
 ): void => {
   const root = document.documentElement
 
@@ -25,17 +24,19 @@ export const applyThemeClassToDOM = (
   )
   root.classList.remove(...classesToRemove)
 
-  root.classList.add(`theme-${presetName}`, mode)
+  root.classList.add(`theme-${presetName}`, effectiveMode)
 }
 
-export const applyCustomAccentToDOM = (
+const applyCustomAccentToDOM = (
   hue: number,
   chroma: number,
-  mode: EffectiveMode
+  effectiveMode: EffectiveMode
 ): void => {
   const rootStyle = document.documentElement.style
-  const hoverDelta = mode === 'light' ? -ACCENT_HOVER_DELTA : ACCENT_HOVER_DELTA
-  const pressDelta = mode === 'light' ? -ACCENT_PRESS_DELTA : ACCENT_PRESS_DELTA
+  const hoverDelta =
+    effectiveMode === 'light' ? -ACCENT_HOVER_DELTA : ACCENT_HOVER_DELTA
+  const pressDelta =
+    effectiveMode === 'light' ? -ACCENT_PRESS_DELTA : ACCENT_PRESS_DELTA
 
   rootStyle.setProperty(
     '--color-accent',
@@ -56,9 +57,26 @@ export const applyCustomAccentToDOM = (
   )
 }
 
-export const clearCustomAccentFromDOM = (): void => {
+const clearCustomAccentFromDOM = (): void => {
   const rootStyle = document.documentElement.style
   for (const cssVar of ACCENT_CSS_VARS) {
     rootStyle.removeProperty(cssVar)
+  }
+}
+
+export const applyThemeToDOM = (
+  theme: Theme,
+  effectiveMode: EffectiveMode
+): void => {
+  applyThemeClassToDOM(theme.presetName, effectiveMode)
+
+  if (theme.customAccentHue != null && theme.customAccentChroma != null) {
+    applyCustomAccentToDOM(
+      theme.customAccentHue,
+      theme.customAccentChroma,
+      effectiveMode
+    )
+  } else {
+    clearCustomAccentFromDOM()
   }
 }
