@@ -42,6 +42,11 @@ Use `browser.storage.local` (via WXT's `storage` utilities) for all user data. T
 - Keep dependencies minimal — avoid adding libraries unless truly needed
 - When learning new patterns or project-specific knowledge during development, update this file to preserve that context
 - **Biome** is the linter/formatter — no semicolons, single quotes, no trailing commas. Run `pnpm lint:fix` before committing.
+- **Skills**: before writing code, check `.agents/skills/` for relevant patterns and best practices. Apply them when appropriate:
+  - `vercel-composition-patterns` — React composition patterns (compound components, avoid boolean props)
+  - `vercel-react-best-practices` — Performance optimization (re-renders, async, bundle size)
+  - `web-design-guidelines` — UI/UX and accessibility guidelines
+  - `react-aria` — Accessible unstyled UI components (use if we add react-aria as a dependency)
 
 ## WXT Extension Architecture Notes
 
