@@ -1,12 +1,8 @@
-import { createContext } from 'react'
-
-import type {
-  ColorMode,
-  EffectiveMode,
-  PresetName
-} from '../domain/theme-entities'
+import { createSafeContext } from '../../infrastructure/react/create-safe-context'
+import type { ColorMode, EffectiveMode, PresetName } from './theme-domain'
 
 export type ThemeContextValue = {
+  clearCustomAccent: () => void
   colorMode: ColorMode
   effectiveMode: EffectiveMode
   presetName: PresetName
@@ -16,7 +12,7 @@ export type ThemeContextValue = {
   setColorMode: (mode: ColorMode) => void
   setCustomAccent: (hue: number, chroma: number) => void
   setPreset: (name: PresetName) => void
-  clearCustomAccent: () => void
 }
 
-export const ThemeContext = createContext<ThemeContextValue | null>(null)
+export const [ThemeContext, useTheme] =
+  createSafeContext<ThemeContextValue>('Theme')

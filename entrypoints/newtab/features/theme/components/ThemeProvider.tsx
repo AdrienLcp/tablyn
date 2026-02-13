@@ -1,16 +1,16 @@
 import { useCallback, useEffect, useMemo, useRef, useState } from 'react'
 
-import { DEFAULT_THEME_STATE } from '../domain/theme-constants'
+import { ThemeContext } from '../theme-context'
+import { applyThemeToDOM } from '../theme-css'
 import type {
   ColorMode,
   EffectiveMode,
   PresetName,
   Theme
-} from '../domain/theme-entities'
-import { applyThemeToDOM } from '../services/theme-css'
-import { onSystemModeChange, resolveEffectiveMode } from '../services/theme-mode'
-import { loadTheme, saveTheme } from '../services/theme-storage'
-import { ThemeContext } from './theme-context'
+} from '../theme-domain'
+import { DEFAULT_THEME_STATE } from '../theme-domain'
+import { onSystemModeChange, resolveEffectiveMode } from '../theme-mode'
+import { themeStorage } from '../theme-storage'
 
 export const ThemeProvider: React.FC<React.PropsWithChildren> = ({
   children
@@ -23,12 +23,13 @@ export const ThemeProvider: React.FC<React.PropsWithChildren> = ({
   const themeRef = useRef(theme)
 
   useEffect(() => {
-    loadTheme().then((savedTheme) => {
-      themeRef.current = savedTheme
-      setTheme(savedTheme)
-      const resolvedMode = resolveEffectiveMode(savedTheme.colorMode)
+    themeStorage.load().then((savedTheme) => {
+      const resolvedTheme = savedTheme ?? DEFAULT_THEME_STATE
+      themeRef.current = resolvedTheme
+      setTheme(resolvedTheme)
+      const resolvedMode = resolveEffectiveMode(resolvedTheme.colorMode)
       setEffectiveMode(resolvedMode)
-      applyThemeToDOM(savedTheme, resolvedMode)
+      applyThemeToDOM(resolvedTheme, resolvedMode)
       setIsThemeLoaded(true)
     })
   }, [])
@@ -48,7 +49,7 @@ export const ThemeProvider: React.FC<React.PropsWithChildren> = ({
     const resolvedMode = resolveEffectiveMode(nextTheme.colorMode)
     setEffectiveMode(resolvedMode)
     applyThemeToDOM(nextTheme, resolvedMode)
-    saveTheme(nextTheme)
+    themeStorage.save(nextTheme)
   }, [])
 
   const setColorMode = useCallback(

@@ -17,10 +17,10 @@ entrypoints/
 └── newtab/                    # New tab page (main UI)
     ├── features/
     │   └── theme/
-    │       ├── components/    # React components (ThemeSwitcher)
+    │       ├── components/    # React components (PascalCase .tsx)
     │       ├── context/       # React context, provider, hooks
-    │       ├── domain/        # Entities, constants, Zod schemas
-    │       └── services/      # Pure TS logic (CSS, storage, mode detection)
+    │       ├── theme-*.ts     # Domain & services (flat when small)
+    │       └── ...
     ├── presentation/
     │   └── styles/            # Sass partials (_colors, _sizes, _themes, _typography)
     ├── App.tsx
@@ -48,12 +48,12 @@ Use `browser.storage.local` (via WXT's `storage` utilities) for all user data. T
 
 ## Architecture
 
-- **Feature-first**: code organized by feature under `features/<name>/`. If a feature grows large, apply clean architecture inside it.
+- **Feature-first**: code organized by feature under `features/<name>/`. Keep files flat at the feature root when the feature is small; introduce sub-folders (`domain/`, `services/`) only when it grows large enough to justify them.
 - **UI/Logic separation**: all business logic lives in **framework-agnostic TypeScript services** (pure functions, no React imports). React components and hooks are thin wrappers that consume these services. This ensures portability — if we swap React for another framework, only the UI layer needs rewriting.
-  - `features/<name>/domain/` — entities (types), constants, Zod schemas
-  - `features/<name>/services/` — pure TS logic (storage, data, DOM manipulation)
   - `features/<name>/context/` — React context definition, provider, hooks
-  - `features/<name>/components/` — React components
+  - `features/<name>/components/` — React components (PascalCase `.tsx`)
+  - `features/<name>/*-domain.ts` — entities (types), constants, Zod schemas
+  - `features/<name>/*-<service>.ts` — pure TS logic (storage, CSS, mode detection…)
 
 ## Conventions
 
@@ -72,7 +72,8 @@ Use `browser.storage.local` (via WXT's `storage` utilities) for all user data. T
 - **Descriptive variable names** — prefer `storedThemeResult` over `result`, `rawThemeData` over `stored`. Name variables after what they contain.
 - **Boolean prefix** — always prefix booleans with `is`, `has`, `can`, `should`, etc. Example: `isLoaded`, `hasError`, `canSubmit`. Never `loaded`, `error`, `open`.
 - **Sorted dependency arrays** — React hooks dependency arrays (`useEffect`, `useCallback`, `useMemo`) must be sorted alphabetically.
-- **Component-only exports for HMR** — each `.tsx` file must export **only** React components (no contexts, constants, or types mixed in). This is required for React Fast Refresh to work. Separate context creation (`createContext`) and shared types into a dedicated `.ts` file (e.g. `theme-context.ts` for context + types, `theme-provider.tsx` for the provider component).
+- **File naming by content** — `.tsx` files export React components and use **PascalCase** (`ThemeProvider.tsx`, `ThemeSwitcher.tsx`). `.ts` files (hooks, contexts, domain, services) use **kebab-case** (`use-theme.ts`, `theme-context.ts`, `theme-domain.ts`).
+- **Component-only exports for HMR** — each `.tsx` file must export **only** React components (no contexts, constants, or types mixed in). This is required for React Fast Refresh to work. Separate context creation (`createContext`) and shared types into a dedicated `.ts` file (e.g. `theme-context.ts` for context + types, `ThemeProvider.tsx` for the provider component).
 - **Stable callbacks with `useRef`** — when callbacks need to read the latest state without re-creating on every change, store state in a `useRef` and read `ref.current` inside callbacks. This keeps dependency arrays minimal (e.g. `[updateTheme]` instead of `[updateTheme, state]`).
 - **No magic numbers** — extract numeric literals into named constants in the domain's `*-constants.ts`.
 - **No empty blocks or placeholder comments** — catch blocks must log with `console.warn`/`console.error`. Never leave `// TODO` or empty `{}`.

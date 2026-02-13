@@ -1,4 +1,4 @@
-import type { ColorMode, EffectiveMode } from '../domain/theme-entities'
+import type { ColorMode, EffectiveMode } from './theme-domain'
 
 const PREFERS_DARK_COLOR_SCHEME_MEDIA_QUERY = '(prefers-color-scheme: dark)'
 

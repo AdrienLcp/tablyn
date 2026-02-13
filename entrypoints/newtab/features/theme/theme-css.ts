@@ -1,4 +1,4 @@
-import type { EffectiveMode, Theme } from '../domain/theme-entities'
+import type { EffectiveMode, Theme } from './theme-domain'
 
 const ACCENT_BASE_LIGHTNESS = 0.546
 const ACCENT_HOVER_DELTA = 0.1

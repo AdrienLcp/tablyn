@@ -1,18 +1,19 @@
 {
   "dependencies": {
     "react": "^19.2.4",
+    "react-aria-components": "^1.15.1",
     "react-dom": "^19.2.4",
     "zod": "^4.3.6"
   },
   "description": "Minimalist new tab extension — a personal launchpad with customizable shortcuts.",
   "devDependencies": {
-    "@biomejs/biome": "2.3.14",
+    "@biomejs/biome": "2.3.15",
     "@types/react": "^19.2.14",
     "@types/react-dom": "^19.2.3",
     "@wxt-dev/module-react": "^1.1.5",
     "sass-embedded": "^1.97.3",
     "typescript": "^5.9.3",
-    "wxt": "^0.20.15"
+    "wxt": "^0.20.17"
   },
   "name": "tablyn",
   "packageManager": "pnpm@10.29.3+sha512.498e1fb4cca5aa06c1dcf2611e6fafc50972ffe7189998c409e90de74566444298ffe43e6cd2acdc775ba1aa7cc5e092a8b7054c811ba8c5770f84693d33d2dc",

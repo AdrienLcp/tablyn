@@ -1,6 +1,10 @@
-import { useTheme } from '../context/use-theme'
-import { COLOR_MODES, PRESET_NAMES } from '../domain/theme-constants'
-import type { ColorMode, PresetName } from '../domain/theme-entities'
+import { useTheme } from '../theme-context'
+import {
+  COLOR_MODES,
+  type ColorMode,
+  PRESET_NAMES,
+  type PresetName
+} from '../theme-domain'
 
 const COLOR_VARS = [
   'accent',
