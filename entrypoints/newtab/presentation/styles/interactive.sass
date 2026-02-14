@@ -1,0 +1,88 @@
+@use 'animations'
+@use 'selectors'
+
+@mixin common-interactive
+  @include animations.color-transitions
+
+  @include selectors.disabled
+    cursor: default
+    pointer-events: none
+
+@mixin filled
+  @include common-interactive
+  background-color: var(--color-accent)
+  color: var(--color-accent-foreground)
+
+  @include selectors.hovered
+    background-color: var(--color-accent-hovered)
+
+  @include selectors.pressed
+    background-color: var(--color-accent-pressed)
+
+  @include selectors.disabled
+    background-color: var(--color-muted)
+    color: var(--color-foreground-muted)
+
+@mixin outlined
+  @include common-interactive
+  background-color: transparent
+  border: var(--element-stroke, 0.125rem) solid var(--color-border)
+  color: var(--color-foreground)
+
+  @include selectors.hovered
+    background-color: var(--color-muted)
+    border-color: color-mix(in oklch, var(--color-border), var(--color-foreground) 25%)
+
+  @include selectors.pressed
+    border-color: color-mix(in oklch, var(--color-border), var(--color-foreground) 40%)
+
+  @include selectors.disabled
+    background-color: transparent
+    border-color: var(--color-muted)
+    color: var(--color-foreground-muted)
+
+@mixin transparent
+  @include common-interactive
+  background-color: transparent
+  color: var(--color-foreground)
+
+  @include selectors.hovered
+    background-color: var(--color-muted)
+
+  @include selectors.pressed
+    background-color: color-mix(in oklch, var(--color-muted), var(--color-foreground) 10%)
+
+  @include selectors.disabled
+    background-color: transparent
+    color: var(--color-foreground-muted)
+
+@mixin destructive
+  @include common-interactive
+  background-color: var(--color-destructive)
+  color: var(--color-destructive-foreground)
+
+  @include selectors.hovered
+    background-color: color-mix(in oklch, var(--color-destructive), var(--color-foreground) 10%)
+
+  @include selectors.pressed
+    background-color: color-mix(in oklch, var(--color-destructive), var(--color-foreground) 20%)
+
+  @include selectors.disabled
+    background-color: var(--color-muted)
+    color: var(--color-foreground-muted)
+
+@mixin underlined
+  @include common-interactive
+  background-color: transparent
+  color: var(--color-foreground)
+  text-decoration: none
+
+  @include selectors.hovered
+    text-decoration: underline
+
+  @include selectors.pressed
+    text-decoration: underline
+
+  @include selectors.disabled
+    color: var(--color-foreground-muted)
+    text-decoration: none

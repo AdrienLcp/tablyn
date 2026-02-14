@@ -1,0 +1,58 @@
+@mixin disabled
+  &.disabled:not([data-rac]),
+  &:disabled:not([data-rac]),
+  &[data-disabled]
+    @content
+
+@mixin focused
+  &:focus:not([data-rac]),
+  &[data-focused]
+    @content
+
+@mixin focus-visible
+  &:focus-visible:not([data-rac]),
+  &[data-focus-visible]
+    @content
+
+@mixin hovered
+  @media (hover: hover)
+    &:hover:not([data-rac])
+      @content
+
+  &[data-hovered]
+    @content
+
+@mixin invalid
+  &:invalid:not([data-rac]),
+  &[data-invalid]
+    @content
+
+@mixin pending
+  &.pending:not([data-rac]),
+  &[data-pending]
+    @content
+
+@mixin placeholder
+  &[data-placeholder],
+  &::placeholder
+    @content
+
+@mixin pressed
+  &:active:not([data-rac]),
+  &[data-pressed]
+    @content
+
+@mixin read-only
+  &.read-only:not([data-rac]),
+  &[data-read-only]
+    @content
+
+@mixin required
+  &[required]:not([data-rac]),
+  &[data-required]
+    @content
+
+@mixin selected
+  &.selected:not([data-rac]),
+  &[data-selected]
+    @content

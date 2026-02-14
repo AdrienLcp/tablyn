@@ -40,9 +40,7 @@ export const I18nProvider: React.FC<React.PropsWithChildren> = ({
 
   return (
     <I18nContext value={value}>
-      <AriaI18nProvider locale={locale}>
-        {children}
-      </AriaI18nProvider>
+      <AriaI18nProvider locale={locale}>{children}</AriaI18nProvider>
     </I18nContext>
   )
 }

@@ -1,0 +1,16 @@
+:root
+  --ease-spring: cubic-bezier(0.175, 0.885, 0.32, 1.275)
+  --ease-gentle: cubic-bezier(0.25, 0.46, 0.45, 0.94)
+  --ease-bouncy: cubic-bezier(0.68, -0.55, 0.265, 1.55)
+
+  --transition-150: 0
+  --transition-1000: 0
+
+  @media (prefers-reduced-motion: no-preference)
+    --transition-150: 150ms
+    --transition-1000: 1s
+
+@mixin color-transitions
+  transition-duration: var(--transition-150)
+  transition-property: background-color, border-color, color
+  transition-timing-function: var(--ease-gentle)

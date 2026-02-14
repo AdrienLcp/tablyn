@@ -1,5 +1,5 @@
 // Fallback values (Zinc light) — applied if no theme class is set yet.
-// At runtime, _themes.sass classes take over via <html class="theme-zinc light">
+// At runtime, themes.sass classes take over via <html class="theme-zinc light">
 
 :root
   --color-accent: oklch(0.24 0.006 285)
@@ -14,20 +14,6 @@
   --color-foreground-muted: oklch(0.55 0.014 286)
   --color-muted: oklch(0.967 0.001 286)
   --color-ring: oklch(0.24 0.006 285)
-
-  &.orange
-    &.light
-      // colors light orange
-
-    &.dark
-      // colors dark orange
-
-  &.violet
-    &.light
-      // colors light violet
-
-    &.dark
-      // colors dark violet
 
 body
   background-color: var(--color-background)

@@ -1,0 +1,68 @@
+@use '../styles/accessibility'
+@use '../styles/interactive'
+@use '../styles/sizes'
+@use '../styles/typography'
+
+@mixin common-button
+  @include typography.label-medium
+  align-items: center
+  border-radius: var(--element-radius, 0.5rem)
+  cursor: pointer
+  display: inline-flex
+  gap: var(--size-80, 0.5rem)
+  justify-content: center
+  min-block-size: var(--element-size, 2.5rem)
+  padding: var(--size-80, 0.5rem) var(--size-160, 1rem)
+
+  &[data-size='small']
+    @include typography.label-small
+    min-block-size: var(--element-size-small, 2rem)
+    padding-block: var(--size-60, 0.375rem)
+    padding-inline: var(--size-120, 0.75rem)
+
+  &:has(> .icon:only-child)
+    aspect-ratio: 1
+    min-block-size: unset
+    padding: 0
+
+.pressable
+  &[data-size='small']
+    gap: var(--size-60, 0.375rem)
+
+  &[data-icon-side='right']
+    flex-direction: row-reverse
+
+  &[data-variant='filled']
+    @include interactive.filled
+    @include common-button
+
+  &[data-variant='outlined']
+    @include interactive.outlined
+    @include common-button
+
+  &[data-variant='transparent']
+    @include interactive.transparent
+    @include common-button
+
+  &[data-variant='destructive']
+    @include interactive.destructive
+    @include common-button
+
+  &[data-variant='underlined']
+    @include interactive.underlined
+    @include accessibility.focus-border
+
+  & .icon
+    @include sizes.square(var(--element-icon-size, 1rem))
+    display: flex
+    flex-shrink: 0
+
+    [data-size='small'] > &
+      @include sizes.square(var(--element-icon-size-small, 0.875rem))
+
+    > svg
+      block-size: 100%
+      inline-size: 100%
+
+  & .label
+    @include typography.text-ellipsis

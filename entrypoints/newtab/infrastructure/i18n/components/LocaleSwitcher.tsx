@@ -1,3 +1,4 @@
+import { Button } from '../../../presentation/components/Button'
 import { useI18n } from '../i18n-context'
 
 export const LocaleSwitcher: React.FC = () => {
@@ -6,8 +7,12 @@ export const LocaleSwitcher: React.FC = () => {
   return (
     <div>
       <h2>{translate('locale.title', { locale })}</h2>
-      <button onClick={() => setLocale('en')} type='button'>english</button>
-      <button onClick={() => setLocale('fr')} type='button'>français</button>
+      <Button onPress={() => setLocale('en')} variant={locale === 'en' ? 'filled' : 'outlined'}>
+        english
+      </Button>
+      <Button onPress={() => setLocale('fr')} variant={locale === 'fr' ? 'filled' : 'outlined'}>
+        français
+      </Button>
     </div>
   )
 }

@@ -1,0 +1,21 @@
+@use 'sass:map'
+
+$breakpoints: (
+  xs: 320px,
+  s: 480px,
+  m: 768px,
+  l: 1024px,
+  xl: 1280px
+)
+
+@mixin responsive($size)
+  @media (width > map.get($breakpoints, $size))
+    @content
+
+@mixin is-desktop
+  @include responsive(m)
+    @content
+
+@mixin is-mobile
+  @media (width <= map.get($breakpoints, m))
+    @content
