@@ -10,10 +10,10 @@
   pointer-events: none
 
   &[data-entering]
-    animation: tooltip-enter 150ms ease-out
+    animation: tooltip-enter var(--transition-150) ease-out
 
   &[data-exiting]
-    animation: tooltip-exit 150ms ease-in forwards
+    animation: tooltip-exit var(--transition-150) ease-in forwards
 
 @keyframes tooltip-enter
   from

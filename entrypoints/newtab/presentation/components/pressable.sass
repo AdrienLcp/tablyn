@@ -66,3 +66,9 @@
 
   & .label
     @include typography.text-ellipsis
+
+  @media (forced-colors: active)
+    &[data-variant='filled'],
+    &[data-variant='transparent'],
+    &[data-variant='destructive']
+      border: var(--element-stroke, 0.125rem) solid ButtonText

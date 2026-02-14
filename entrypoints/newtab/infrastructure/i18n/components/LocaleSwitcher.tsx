@@ -7,10 +7,16 @@ export const LocaleSwitcher: React.FC = () => {
   return (
     <div>
       <h2>{translate('locale.title', { locale })}</h2>
-      <Button onPress={() => setLocale('en')} variant={locale === 'en' ? 'filled' : 'outlined'}>
+      <Button
+        onPress={() => setLocale('en')}
+        variant={locale === 'en' ? 'filled' : 'outlined'}
+      >
         english
       </Button>
-      <Button onPress={() => setLocale('fr')} variant={locale === 'fr' ? 'filled' : 'outlined'}>
+      <Button
+        onPress={() => setLocale('fr')}
+        variant={locale === 'fr' ? 'filled' : 'outlined'}
+      >
         français
       </Button>
     </div>

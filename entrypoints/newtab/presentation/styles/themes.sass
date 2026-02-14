@@ -1,12 +1,13 @@
 // Predefined theme presets — applied via class on <html>
 // Convention: .theme-<name>.<mode> (e.g. .theme-zinc.light)
+//
+// Neutral palette shared by zinc, blue, violet, orange.
+// Slate and stone have their own neutral palettes.
+// Hover/pressed derived from accent lightness ± step.
 
-// ============ Zinc ============
-.theme-zinc.light
-  --color-accent: oklch(0.24 0.006 285)
-  --color-accent-foreground: oklch(0.985 0 0)
-  --color-accent-hovered: oklch(0.34 0.006 285)
-  --color-accent-pressed: oklch(0.44 0.006 285)
+// ============ Neutral Palettes ============
+
+@mixin zinc-palette-light
   --color-background: oklch(1 0 0)
   --color-border: oklch(0.87 0.006 286)
   --color-destructive: oklch(0.577 0.245 27.33)
@@ -14,28 +15,17 @@
   --color-foreground: oklch(0.14 0.004 285)
   --color-foreground-muted: oklch(0.55 0.014 286)
   --color-muted: oklch(0.967 0.001 286)
-  --color-ring: oklch(0.24 0.006 285)
 
-.theme-zinc.dark
-  --color-accent: oklch(0.985 0 0)
-  --color-accent-foreground: oklch(0.14 0.004 285)
-  --color-accent-hovered: oklch(0.885 0 0)
-  --color-accent-pressed: oklch(0.785 0 0)
+@mixin zinc-palette-dark
   --color-background: oklch(0.14 0.004 285)
   --color-border: oklch(0.274 0.006 286)
-  --color-destructive: oklch(0.577 0.245 27.33)
+  --color-destructive: oklch(0.637 0.237 27.33)
   --color-destructive-foreground: oklch(0.985 0 0)
   --color-foreground: oklch(0.985 0 0)
   --color-foreground-muted: oklch(0.71 0.013 286)
   --color-muted: oklch(0.274 0.006 286)
-  --color-ring: oklch(0.87 0.006 286)
 
-// ============ Slate ============
-.theme-slate.light
-  --color-accent: oklch(0.205 0.015 265)
-  --color-accent-foreground: oklch(0.985 0.002 247)
-  --color-accent-hovered: oklch(0.305 0.015 265)
-  --color-accent-pressed: oklch(0.405 0.015 265)
+@mixin slate-palette-light
   --color-background: oklch(1 0 0)
   --color-border: oklch(0.87 0.007 253)
   --color-destructive: oklch(0.577 0.245 27.33)
@@ -43,28 +33,17 @@
   --color-foreground: oklch(0.129 0.042 265)
   --color-foreground-muted: oklch(0.55 0.024 256)
   --color-muted: oklch(0.967 0.003 265)
-  --color-ring: oklch(0.205 0.015 265)
 
-.theme-slate.dark
-  --color-accent: oklch(0.985 0.002 247)
-  --color-accent-foreground: oklch(0.129 0.042 265)
-  --color-accent-hovered: oklch(0.885 0.002 247)
-  --color-accent-pressed: oklch(0.785 0.002 247)
+@mixin slate-palette-dark
   --color-background: oklch(0.129 0.042 265)
   --color-border: oklch(0.274 0.02 256)
-  --color-destructive: oklch(0.577 0.245 27.33)
+  --color-destructive: oklch(0.637 0.237 27.33)
   --color-destructive-foreground: oklch(0.985 0 0)
   --color-foreground: oklch(0.985 0.002 247)
   --color-foreground-muted: oklch(0.71 0.02 261)
   --color-muted: oklch(0.274 0.02 256)
-  --color-ring: oklch(0.87 0.007 253)
 
-// ============ Stone ============
-.theme-stone.light
-  --color-accent: oklch(0.216 0.006 56)
-  --color-accent-foreground: oklch(0.985 0.001 106)
-  --color-accent-hovered: oklch(0.316 0.006 56)
-  --color-accent-pressed: oklch(0.416 0.006 56)
+@mixin stone-palette-light
   --color-background: oklch(1 0 0)
   --color-border: oklch(0.87 0.005 56)
   --color-destructive: oklch(0.577 0.245 27.33)
@@ -72,105 +51,71 @@
   --color-foreground: oklch(0.147 0.004 49)
   --color-foreground-muted: oklch(0.553 0.013 58)
   --color-muted: oklch(0.97 0.001 106)
-  --color-ring: oklch(0.216 0.006 56)
 
-.theme-stone.dark
-  --color-accent: oklch(0.985 0.001 106)
-  --color-accent-foreground: oklch(0.147 0.004 49)
-  --color-accent-hovered: oklch(0.885 0.001 106)
-  --color-accent-pressed: oklch(0.785 0.001 106)
+@mixin stone-palette-dark
   --color-background: oklch(0.147 0.004 49)
   --color-border: oklch(0.268 0.007 34)
-  --color-destructive: oklch(0.577 0.245 27.33)
+  --color-destructive: oklch(0.637 0.237 27.33)
   --color-destructive-foreground: oklch(0.985 0 0)
   --color-foreground: oklch(0.985 0.001 106)
   --color-foreground-muted: oklch(0.709 0.01 56)
   --color-muted: oklch(0.268 0.007 34)
-  --color-ring: oklch(0.87 0.005 56)
 
-// ============ Blue ============
+// ============ Accent ============
+
+@mixin accent($l, $c, $h, $foreground, $step, $ring-l: $l, $ring-c: $c, $ring-h: $h)
+  --color-accent: oklch(#{$l} #{$c} #{$h})
+  --color-accent-foreground: #{$foreground}
+  --color-accent-hovered: oklch(#{$l + $step} #{$c} #{$h})
+  --color-accent-pressed: oklch(#{$l + $step * 2} #{$c} #{$h})
+  --color-ring: oklch(#{$ring-l} #{$ring-c} #{$ring-h})
+
+// ============ Themes ============
+
+.theme-zinc.light
+  @include zinc-palette-light
+  @include accent(0.24, 0.006, 285, oklch(0.985 0 0), 0.1)
+
+.theme-zinc.dark
+  @include zinc-palette-dark
+  @include accent(0.985, 0, 0, oklch(0.14 0.004 285), -0.1, $ring-l: 0.87, $ring-c: 0.006, $ring-h: 286)
+
+.theme-slate.light
+  @include slate-palette-light
+  @include accent(0.205, 0.015, 265, oklch(0.985 0.002 247), 0.1)
+
+.theme-slate.dark
+  @include slate-palette-dark
+  @include accent(0.985, 0.002, 247, oklch(0.129 0.042 265), -0.1, $ring-l: 0.87, $ring-c: 0.007, $ring-h: 253)
+
+.theme-stone.light
+  @include stone-palette-light
+  @include accent(0.216, 0.006, 56, oklch(0.985 0.001 106), 0.1)
+
+.theme-stone.dark
+  @include stone-palette-dark
+  @include accent(0.985, 0.001, 106, oklch(0.147 0.004 49), -0.1, $ring-l: 0.87, $ring-c: 0.005, $ring-h: 56)
+
 .theme-blue.light
-  --color-accent: oklch(0.546 0.245 262)
-  --color-accent-foreground: oklch(0.985 0 0)
-  --color-accent-hovered: oklch(0.446 0.245 262)
-  --color-accent-pressed: oklch(0.346 0.245 262)
-  --color-background: oklch(1 0 0)
-  --color-border: oklch(0.87 0.006 286)
-  --color-destructive: oklch(0.577 0.245 27.33)
-  --color-destructive-foreground: oklch(0.985 0 0)
-  --color-foreground: oklch(0.14 0.004 285)
-  --color-foreground-muted: oklch(0.55 0.014 286)
-  --color-muted: oklch(0.967 0.001 286)
-  --color-ring: oklch(0.546 0.245 262)
+  @include zinc-palette-light
+  @include accent(0.546, 0.245, 262, oklch(0.985 0 0), -0.1)
 
 .theme-blue.dark
-  --color-accent: oklch(0.546 0.245 262)
-  --color-accent-foreground: oklch(0.985 0 0)
-  --color-accent-hovered: oklch(0.646 0.245 262)
-  --color-accent-pressed: oklch(0.746 0.245 262)
-  --color-background: oklch(0.14 0.004 285)
-  --color-border: oklch(0.274 0.006 286)
-  --color-destructive: oklch(0.577 0.245 27.33)
-  --color-destructive-foreground: oklch(0.985 0 0)
-  --color-foreground: oklch(0.985 0 0)
-  --color-foreground-muted: oklch(0.71 0.013 286)
-  --color-muted: oklch(0.274 0.006 286)
-  --color-ring: oklch(0.546 0.245 262)
+  @include zinc-palette-dark
+  @include accent(0.546, 0.245, 262, oklch(0.985 0 0), 0.1)
 
-// ============ Violet ============
 .theme-violet.light
-  --color-accent: oklch(0.541 0.281 293)
-  --color-accent-foreground: oklch(0.985 0 0)
-  --color-accent-hovered: oklch(0.441 0.281 293)
-  --color-accent-pressed: oklch(0.341 0.281 293)
-  --color-background: oklch(1 0 0)
-  --color-border: oklch(0.87 0.006 286)
-  --color-destructive: oklch(0.577 0.245 27.33)
-  --color-destructive-foreground: oklch(0.985 0 0)
-  --color-foreground: oklch(0.14 0.004 285)
-  --color-foreground-muted: oklch(0.55 0.014 286)
-  --color-muted: oklch(0.967 0.001 286)
-  --color-ring: oklch(0.541 0.281 293)
+  @include zinc-palette-light
+  @include accent(0.541, 0.281, 293, oklch(0.985 0 0), -0.1)
 
 .theme-violet.dark
-  --color-accent: oklch(0.541 0.281 293)
-  --color-accent-foreground: oklch(0.985 0 0)
-  --color-accent-hovered: oklch(0.641 0.281 293)
-  --color-accent-pressed: oklch(0.741 0.281 293)
-  --color-background: oklch(0.14 0.004 285)
-  --color-border: oklch(0.274 0.006 286)
-  --color-destructive: oklch(0.577 0.245 27.33)
-  --color-destructive-foreground: oklch(0.985 0 0)
-  --color-foreground: oklch(0.985 0 0)
-  --color-foreground-muted: oklch(0.71 0.013 286)
-  --color-muted: oklch(0.274 0.006 286)
-  --color-ring: oklch(0.541 0.281 293)
+  @include zinc-palette-dark
+  @include accent(0.541, 0.281, 293, oklch(0.985 0 0), 0.1)
 
-// ============ Orange ============
 .theme-orange.light
-  --color-accent: oklch(0.705 0.213 47.6)
-  --color-accent-foreground: oklch(0.985 0 0)
-  --color-accent-hovered: oklch(0.605 0.213 47.6)
-  --color-accent-pressed: oklch(0.505 0.213 47.6)
-  --color-background: oklch(1 0 0)
-  --color-border: oklch(0.87 0.006 286)
-  --color-destructive: oklch(0.577 0.245 27.33)
-  --color-destructive-foreground: oklch(0.985 0 0)
-  --color-foreground: oklch(0.14 0.004 285)
-  --color-foreground-muted: oklch(0.55 0.014 286)
-  --color-muted: oklch(0.967 0.001 286)
-  --color-ring: oklch(0.705 0.213 47.6)
+  @include zinc-palette-light
+  @include accent(0.705, 0.213, 47.6, oklch(0.985 0 0), -0.1)
 
 .theme-orange.dark
-  --color-accent: oklch(0.705 0.213 47.6)
-  --color-accent-foreground: oklch(0.985 0 0)
-  --color-accent-hovered: oklch(0.805 0.213 47.6)
-  --color-accent-pressed: oklch(0.905 0.213 47.6)
-  --color-background: oklch(0.14 0.004 285)
-  --color-border: oklch(0.274 0.006 286)
-  --color-destructive: oklch(0.577 0.245 27.33)
-  --color-destructive-foreground: oklch(0.985 0 0)
-  --color-foreground: oklch(0.985 0 0)
-  --color-foreground-muted: oklch(0.71 0.013 286)
-  --color-muted: oklch(0.274 0.006 286)
-  --color-ring: oklch(0.705 0.213 47.6)
+  @include zinc-palette-dark
+  @include accent(0.705, 0.213, 47.6, oklch(0.985 0 0), 0.1)

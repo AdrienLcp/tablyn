@@ -1,15 +1,7 @@
 @use '../styles/sizes'
 
 .spinner
-  @include sizes.square(var(--element-icon-size))
   animation: spin 750ms linear infinite
-  border: var(--stroke-m, 0.125rem) solid transparent
-  border-block-start-color: currentColor
-  border-radius: var(--circular, 99rem)
-  display: inline-block
-
-  [data-size='small'] &
-    @include sizes.square(var(--element-icon-size-small))
 
 @keyframes spin
   to

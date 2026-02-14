@@ -82,7 +82,10 @@ const BaseButton: React.FC<ButtonProps> = ({
   )
 }
 
-export const Button: React.FC<ButtonProps> = ({ tooltip, ...buttonRestProps }) => {
+export const Button: React.FC<ButtonProps> = ({
+  tooltip,
+  ...buttonRestProps
+}) => {
   if (tooltip == null) {
     return <BaseButton {...buttonRestProps} />
   }
