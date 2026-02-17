@@ -1,0 +1,16 @@
+.react-aria-GridList
+  display: grid
+  grid-template-columns: repeat(auto-fill, 100px)
+  gap: 10px
+  width: 100vw
+
+.react-aria-GridListItem
+  width: 100px
+  height: 100px
+  background-color: #ccc
+  text-align: center
+  line-height: 100px
+  cursor: move
+
+  &[data-dragging]
+    opacity: 0.5

@@ -1,10 +1,9 @@
-import classNames from 'classnames'
 import {
   Button as AriaButton,
-  type ButtonProps as AriaButtonProps,
-  composeRenderProps
+  type ButtonProps as AriaButtonProps
 } from 'react-aria-components'
 
+import { composeClassName } from '../utils/react-aria'
 import type { PressableProps } from './pressable'
 import { Spinner } from './Spinner'
 import { Tooltip } from './Tooltip'
@@ -34,8 +33,6 @@ const BaseButton: React.FC<ButtonProps> = ({
   className,
   Icon,
   iconSide = 'left',
-  isDisabled,
-  isPending,
   size,
   tooltip,
   variant,
@@ -47,14 +44,10 @@ const BaseButton: React.FC<ButtonProps> = ({
 
   return (
     <AriaButton
-      className={composeRenderProps(className, (className) =>
-        classNames('pressable', className)
-      )}
+      className={composeClassName(className, 'pressable')}
       data-icon-side={hasIconSide ? iconSide : undefined}
       data-size={size !== 'medium' ? size : undefined}
       data-variant={resolvedVariant}
-      isDisabled={isDisabled || isPending}
-      isPending={isPending}
       {...buttonRestProps}
     >
       {(renderProps) =>

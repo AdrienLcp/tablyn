@@ -1,10 +1,9 @@
-import classNames from 'classnames'
 import {
   Link as AriaLink,
-  type LinkProps as AriaLinkProps,
-  composeRenderProps
+  type LinkProps as AriaLinkProps
 } from 'react-aria-components'
 
+import { composeClassName } from '../utils/react-aria'
 import type { PressableProps } from './pressable'
 import { Tooltip } from './Tooltip'
 
@@ -31,9 +30,7 @@ const BaseLink: React.FC<LinkProps> = ({
 
   return (
     <AriaLink
-      className={composeRenderProps(className, (className) =>
-        classNames('pressable', className)
-      )}
+      className={composeClassName(className, 'pressable')}
       data-icon-side={hasIconSide ? iconSide : undefined}
       data-size={size !== 'medium' ? size : undefined}
       data-variant={resolvedVariant}

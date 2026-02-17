@@ -1,7 +1,7 @@
 {
   "dependencies": {
     "classnames": "^2.5.1",
-    "lucide-react": "^0.564.0",
+    "lucide-react": "^0.574.0",
     "react": "^19.2.4",
     "react-aria-components": "^1.15.1",
     "react-dom": "^19.2.4",
@@ -9,7 +9,7 @@
   },
   "description": "Minimalist new tab extension — a personal launchpad with customizable shortcuts.",
   "devDependencies": {
-    "@biomejs/biome": "2.3.15",
+    "@biomejs/biome": "2.4.2",
     "@types/react": "^19.2.14",
     "@types/react-dom": "^19.2.3",
     "@wxt-dev/module-react": "^1.1.5",

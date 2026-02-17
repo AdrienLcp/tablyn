@@ -12,22 +12,35 @@ Minimalist new tab browser extension — a personal launchpad with customizable 
 ## Project Structure
 
 ```
-assets/                        # Static assets (icons, images)
 entrypoints/
-└── newtab/                    # New tab page (main UI)
-    ├── features/
+└── newtab/                        # New tab page (main UI)
+    ├── features/                  # Feature-first organized code
     │   └── theme/
-    │       ├── components/    # React components (PascalCase .tsx)
-    │       ├── context/       # React context, provider, hooks
-    │       ├── theme-*.ts     # Domain & services (flat when small)
-    │       └── ...
+    │       ├── components/        # React components (PascalCase .tsx)
+    │       ├── theme-context.ts   # Context + types (flat, no context/ subfolder)
+    │       ├── theme-domain.ts    # Types, constants, Zod schemas
+    │       ├── theme-storage.ts   # Storage service
+    │       ├── theme-css.ts       # CSS/DOM manipulation service
+    │       └── theme-mode.ts      # System mode detection service
+    ├── infrastructure/            # Cross-cutting concerns
+    │   ├── i18n/                  # Internationalization
+    │   │   ├── components/        # I18nProvider, LocaleSwitcher
+    │   │   ├── dictionaries/      # en.ts, fr.ts
+    │   │   ├── lib/               # defineTranslation, init
+    │   │   ├── i18n-context.ts
+    │   │   ├── i18n-locale.ts
+    │   │   ├── i18n-storage.ts
+    │   │   └── i18n-translate.ts
+    │   ├── react/                 # React utilities (create-safe-context)
+    │   └── storage/               # Storage abstraction (create-storage)
     ├── presentation/
-    │   └── styles/            # Sass partials (_colors, _sizes, _themes, _typography)
+    │   ├── components/            # Shared UI components (Button, Link, Spinner, Tooltip)
+    │   └── styles/                # Sass partials (colors, themes, typography, animations…)
     ├── App.tsx
     ├── index.html
     └── main.tsx
-public/                        # Public files copied to output
-wxt.config.ts                  # WXT/Vite configuration
+public/                            # Public files (icons)
+wxt.config.ts                      # WXT/Vite configuration
 ```
 
 ## Commands
@@ -48,10 +61,12 @@ Use `browser.storage.local` (via WXT's `storage` utilities) for all user data. T
 
 ## Architecture
 
-- **Feature-first**: code organized by feature under `features/<name>/`. Keep files flat at the feature root when the feature is small; introduce sub-folders (`domain/`, `services/`) only when it grows large enough to justify them.
+- **Feature-first**: code organized by feature under `features/<name>/`. Files are flat at the feature root (no `context/` or `services/` sub-folders); only `components/` gets its own sub-folder.
+- **Infrastructure layer**: cross-cutting concerns live in `infrastructure/` (i18n, storage abstraction, React utilities). These are not features — they provide shared plumbing.
+- **Presentation layer**: shared UI components (`presentation/components/`) and global styles (`presentation/styles/`). Feature-specific components stay in `features/<name>/components/`.
 - **UI/Logic separation**: all business logic lives in **framework-agnostic TypeScript services** (pure functions, no React imports). React components and hooks are thin wrappers that consume these services. This ensures portability — if we swap React for another framework, only the UI layer needs rewriting.
-  - `features/<name>/context/` — React context definition, provider, hooks
   - `features/<name>/components/` — React components (PascalCase `.tsx`)
+  - `features/<name>/*-context.ts` — React context definition + types
   - `features/<name>/*-domain.ts` — entities (types), constants, Zod schemas
   - `features/<name>/*-<service>.ts` — pure TS logic (storage, CSS, mode detection…)
 
@@ -127,8 +142,7 @@ Features to consider implementing after the MVP:
 - Quote of the day (local JSON or free API)
 
 ### Visual Polish
-- Light/dark theme (auto based on time or manual toggle)
-- Glassmorphism / blur effects on shortcut cards
+- ~~Light/dark theme~~ ✓ (implemented: 6 presets × 2 modes, custom accent, system mode detection)
 - Drag & drop to reorder shortcuts
 
 ### Power User

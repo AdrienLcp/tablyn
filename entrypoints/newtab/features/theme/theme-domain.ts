@@ -12,8 +12,6 @@ export const PRESET_NAMES = [
   'zinc'
 ] as const
 
-export const THEME_STORAGE_KEY = 'theme'
-
 export const DEFAULT_THEME_STATE = {
   colorMode: 'system',
   presetName: 'zinc'
