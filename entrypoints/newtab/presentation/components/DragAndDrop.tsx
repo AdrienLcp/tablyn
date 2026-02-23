@@ -45,8 +45,7 @@ export const DragAndDrop: React.FC = () => {
     >
       {(item) => (
         <GridListItem key={item.id} textValue={item.name}>
-          <Button slot='drag'>≡</Button>
-          {item.name}
+          <Button slot='drag'>{item.name}</Button>
         </GridListItem>
       )}
     </GridList>

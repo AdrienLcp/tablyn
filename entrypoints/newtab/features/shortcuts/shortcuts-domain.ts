@@ -34,7 +34,9 @@ export const shortcutInputSchema = z.object({
 
 export const shortcutThumbnailSchema = z.object({
   backgroundColor: shortcutThumbnailBackgroundColorSchema.catch(null),
-  display: thumbnailDisplayInputSchema.catch(DEFAULT_SHORTCUT_THUMBNAIL_DISPLAY),
+  display: thumbnailDisplayInputSchema.catch(
+    DEFAULT_SHORTCUT_THUMBNAIL_DISPLAY
+  ),
   imageUrl: shortcutThumbnailImageUrlSchema.catch(null),
   letter: shortcutThumbnailLetterSchema.catch(null)
 })
@@ -63,7 +65,9 @@ export const shortcutsImportSchema = z
     })
   )
 
-export type ShortcutThumbnailInput = z.infer<typeof shortcutThumbnailInputSchema>
+export type ShortcutThumbnailInput = z.infer<
+  typeof shortcutThumbnailInputSchema
+>
 export type ShortcutInput = z.infer<typeof shortcutInputSchema>
 export type ShortcutThumbnail = z.infer<typeof shortcutThumbnailSchema>
 export type Shortcut = z.infer<typeof shortcutSchema>

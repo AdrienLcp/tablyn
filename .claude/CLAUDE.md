@@ -93,7 +93,7 @@ Use `browser.storage.local` (via WXT's `storage` utilities) for all user data. T
 - **No magic numbers** — extract numeric literals into named constants in the domain's `*-constants.ts`.
 - **No empty blocks or placeholder comments** — catch blocks must log with `console.warn`/`console.error`. Never leave `// TODO` or empty `{}`.
 - **Zod everywhere at boundaries** — validate all external data (storage, API, user input) with Zod schemas. Always use `safeParse()`, never `parse()`. Prefer reusable sub-schemas (e.g. `presetNameSchema`) over duplicating validation logic.
-- **Skills**: before writing code, making claims, or auditing features related to a library that has skills documentation, **always** check `.agents/skills/` first. This applies to code, analysis, and recommendations. Apply them when appropriate:
+- **Skills**: before writing code, making claims, or auditing features related to a library that has skills documentation, **always** check `.agents/skills/` first. This applies to code, analysis, and recommendations. When the user asks ANYTHING about react-aria (advice, component choice, API question, audit), ALWAYS invoke the `react-aria` skill via the Skill tool before responding. Apply skills when appropriate:
   - `vercel-composition-patterns` — React composition patterns (compound components, avoid boolean props)
   - `vercel-react-best-practices` — Performance optimization (re-renders, async, bundle size)
   - `web-design-guidelines` — UI/UX and accessibility guidelines

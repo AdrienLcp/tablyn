@@ -4,7 +4,7 @@ export const SUPPORTED_LOCALES = ['en', 'fr'] as const
 
 export const localeSchema = z.enum(SUPPORTED_LOCALES)
 export type SupportedLocale = z.infer<typeof localeSchema>
-export const DEFAULT_LOCALE: SupportedLocale = 'en'
+export const DEFAULT_LOCALE = 'en' as const satisfies SupportedLocale
 
 const matchLocale = (browserLocale: string): SupportedLocale | undefined => {
   const normalizedLocale = browserLocale.toLowerCase()
