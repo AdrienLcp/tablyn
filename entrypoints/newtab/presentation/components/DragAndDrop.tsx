@@ -2,6 +2,7 @@ import {
   Button,
   GridList,
   GridListItem,
+  type GridListItemProps,
   useDragAndDrop,
   useListData
 } from 'react-aria-components'
@@ -16,6 +17,25 @@ const INITIAL_ITEMS = [
   { id: '5', name: 'Item 5' },
   { id: '6', name: 'Item 6' }
 ]
+
+type MyItem = {
+  name: string
+  id: string
+}
+
+type GridListItem1 = MyItem & {
+  item: GridListItemProps
+}
+
+type GridListItem2 = GridListItemProps & MyItem
+
+type GridListItem3 = GridListItemProps & {
+  item: MyItem
+}
+
+type GridListItem4 = Omit<GridListItemProps, 'id'> & {
+  id: string
+}
 
 export const DragAndDrop: React.FC = () => {
   const list = useListData({
