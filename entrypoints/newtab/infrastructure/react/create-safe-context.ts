@@ -8,11 +8,13 @@ export const createSafeContext = <T>(
 
   const useSafeContext = (): T => {
     const value = useContext(Context)
+
     if (!value) {
       throw new Error(
         `use${displayName} must be used within a ${displayName}Provider`
       )
     }
+
     return value
   }
 

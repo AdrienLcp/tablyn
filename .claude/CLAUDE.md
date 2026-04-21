@@ -69,6 +69,7 @@ Use `browser.storage.local` (via WXT's `storage` utilities) for all user data. T
   - `features/<name>/*-context.ts` — React context definition + types
   - `features/<name>/*-domain.ts` — entities (types), constants, Zod schemas
   - `features/<name>/*-<service>.ts` — pure TS logic (storage, CSS, mode detection…)
+- **Abstraction boundaries — the service IS the port.** The pure-TS services above ARE the Ports-and-Adapters boundary with external libraries (`browser.storage`, DOM APIs, `matchMedia`, future SDKs). Do NOT stack a second, generic wrapper underneath them (a unified `storage.get()`, a neutral "DOM client", a vendor-agnostic API client). Such wrappers leak the underlying vocabulary (quotas, events, sync/async semantics, error shapes), do not pay off at swap time (a real migration rewrites the adapter itself, not the call sites), and carry permanent indirection cost — classic YAGNI. Rule: external APIs (`browser.*`, `window.*`, future SDKs) may only be imported from an `infrastructure/` module or a feature service, never from a component. Full rationale in `docs/abstraction-boundaries.md`.
 
 ## Conventions
 
